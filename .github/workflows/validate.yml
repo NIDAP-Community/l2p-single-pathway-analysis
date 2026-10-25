@@ -17,8 +17,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: NIDAP-Community/OMIX
-          ref: 0b2fe11
+          ref: codex/standalone-application-contract
           path: canonical-omix
+          fetch-depth: 0
+      - name: Select recorded canonical revision
+        run: git -C canonical-omix checkout --detach 0b2fe11
       - name: Verify pinned scientific export
         run: |
           set -euo pipefail
