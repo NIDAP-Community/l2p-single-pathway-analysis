@@ -1,0 +1,31 @@
+name: Validate L2P Single application
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: NIDAP-Community/OMIX
+          ref: 0b2fe11
+          path: canonical-omix
+      - name: Verify pinned scientific export
+        run: |
+          set -euo pipefail
+          cmp R/L2P_Analysis.R canonical-omix/modules/OMIX-L2P-Single/R/L2P_Analysis.R
+          cmp scripts/run_l2p_single.R canonical-omix/modules/OMIX-L2P-Single/scripts/run_l2p_single.R
+          cmp schemas/interface.yml canonical-omix/modules/OMIX-L2P-Single/schemas/interface.yml
+          cmp module.yml canonical-omix/modules/OMIX-L2P-Single/module.yml
+      - run: container/build_docker.sh l2p-single-pathway-analysis:ci
+      - run: container/smoke_test.sh l2p-single-pathway-analysis:ci
+      - run: container/parity_test.sh l2p-single-pathway-analysis:ci
