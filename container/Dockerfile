@@ -8,7 +8,8 @@ COPY schemas/ schemas/
 COPY packages/ packages/
 COPY test_data/ test_data/
 COPY module.yml renv.lock ./
-RUN R CMD INSTALL packages/OmixPathwayInputs \
+RUN Rscript --vanilla -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/RCurl/RCurl_1.98-1.19.tar.gz", repos = NULL, type = "source"); if (!requireNamespace("RCurl", quietly = TRUE)) stop("RCurl installation failed")' \
+ && R CMD INSTALL packages/OmixPathwayInputs \
  && mkdir -p /data /output \
  && useradd --create-home --uid 10001 --shell /usr/sbin/nologin l2p \
  && chown --recursive l2p:l2p /app /data /output
