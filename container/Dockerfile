@@ -7,8 +7,13 @@ COPY scripts/ scripts/
 COPY schemas/ schemas/
 COPY packages/ packages/
 COPY test_data/ test_data/
+COPY vendor/ vendor/
 COPY module.yml renv.lock ./
-RUN Rscript --vanilla -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/RCurl/RCurl_1.98-1.19.tar.gz", repos = NULL, type = "source"); if (!requireNamespace("RCurl", quietly = TRUE)) stop("RCurl installation failed")' \
+RUN echo 'cff3a5b77b72bb3b8fde92b690d0f803466d218a3ead6b731ae7c77ac1740d08  vendor/bitops_1.0-9.tar.gz' | sha256sum --check - \
+ && R CMD INSTALL vendor/bitops_1.0-9.tar.gz \
+ && echo '57300322f0da21deef5094f12b4a7a94834e60262859e5afb5ff16ac7d431205  vendor/RCurl_1.98-1.19.tar.gz' | sha256sum --check - \
+ && R CMD INSTALL vendor/RCurl_1.98-1.19.tar.gz \
+ && Rscript --vanilla -e 'if (!requireNamespace("RCurl", quietly = TRUE)) stop("RCurl installation failed")' \
  && R CMD INSTALL packages/OmixPathwayInputs \
  && mkdir -p /data /output \
  && useradd --create-home --uid 10001 --shell /usr/sbin/nologin l2p \

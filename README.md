@@ -6,7 +6,8 @@ raw counts.
 
 ## Status
 
-Local candidate only. Its image correctly installs the missing pinned
-`OmixPathwayInputs` dependency, but canonical file-based `--custom_pathways`
-handling is currently defective; see the OMIX derivation preflight before
-using or releasing this candidate.
+Local candidate only. The image layers the missing lockfile-pinned
+`OmixPathwayInputs`, `bitops`, and `RCurl` dependencies over the immutable
+OMIX pathway runtime. Canonical file-based `--custom_pathways` handling was
+repaired in the locally recorded OMIX commit and is exercised by the smoke
+fixture. Release and OncoChat integration remain separate gates.
