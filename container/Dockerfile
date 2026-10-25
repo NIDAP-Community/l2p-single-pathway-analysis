@@ -10,6 +10,14 @@ COPY packages/ packages/
 COPY test_data/ test_data/
 COPY vendor/ vendor/
 COPY module.yml renv.lock ./
+ARG VCS_REF=unknown
+ARG BUILD_DATE=unknown
+LABEL org.opencontainers.image.title="l2p-single-pathway-analysis" \
+      org.opencontainers.image.description="Portable L2P Single pathway analysis component derived from OMIX" \
+      org.opencontainers.image.source="https://github.com/NIDAP-Community/l2p-single-pathway-analysis" \
+      org.opencontainers.image.revision="${VCS_REF}" \
+      org.opencontainers.image.base.name="ghcr.io/nidap-community/omix-r-pathway@sha256:25ad9f50df5a4d7f70a7e3debed13f8d5c9b07cbc46d57fdf5c3cf4f2e767ddc" \
+      org.opencontainers.image.created="${BUILD_DATE}"
 RUN echo 'cff3a5b77b72bb3b8fde92b690d0f803466d218a3ead6b731ae7c77ac1740d08  vendor/bitops_1.0-9.tar.gz' | sha256sum --check - \
  && R CMD INSTALL vendor/bitops_1.0-9.tar.gz \
  && echo '57300322f0da21deef5094f12b4a7a94834e60262859e5afb5ff16ac7d431205  vendor/RCurl_1.98-1.19.tar.gz' | sha256sum --check - \
