@@ -12,4 +12,5 @@ docker run --rm --platform linux/amd64 --user "$(id -u):$(id -g)" \
 test -s "${output_dir}/l2p_single_run_manifest.csv"
 test -s "${output_dir}/l2p_results.csv"
 test -s "${output_dir}/l2p_results_provenance.csv"
+for file in tables/l2p_results.csv tables/l2p_results_provenance.csv logs/l2p_single_run_manifest.csv logs/sessionInfo.txt figures/l2p_plots_upregulated_pathways_bar.png RUN_METADATA.md run_manifest.json; do test -s "${output_dir}/${file}" || exit 1; done
 printf 'L2P Single container smoke test passed: %s\n' "${output_dir}"

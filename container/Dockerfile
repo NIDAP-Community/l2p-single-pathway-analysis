@@ -4,6 +4,7 @@ FROM ${BASE_IMAGE}
 WORKDIR /app
 COPY R/ R/
 COPY scripts/ scripts/
+COPY entrypoint.R ./
 COPY schemas/ schemas/
 COPY packages/ packages/
 COPY test_data/ test_data/
@@ -19,5 +20,5 @@ RUN echo 'cff3a5b77b72bb3b8fde92b690d0f803466d218a3ead6b731ae7c77ac1740d08  vend
  && useradd --create-home --uid 10001 --shell /usr/sbin/nologin l2p \
  && chown --recursive l2p:l2p /app /data /output
 USER l2p
-ENTRYPOINT ["Rscript", "--vanilla", "/app/scripts/run_l2p_single.R"]
+ENTRYPOINT ["Rscript", "--vanilla", "/app/entrypoint.R"]
 CMD ["--help"]

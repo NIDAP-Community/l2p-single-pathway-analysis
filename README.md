@@ -26,7 +26,8 @@ docker run --rm --platform linux/amd64 \
   --collections_to_include '' --output_dir /output
 ```
 
-The canonical CLI writes pathway result tables, figures when applicable, and
-its CSV provenance record. `l2p_single_run_manifest.csv` is the stable
-completion record. See `docs/` for the application boundary and staging
+The canonical root outputs are retained for command-line compatibility. The
+application adapter also copies pathway tables to `tables/`, figures to
+`figures/`, logs to `logs/`, and writes `RUN_METADATA.md` plus
+`run_manifest.json`. See `docs/` for the application boundary and staging
 contract.
